@@ -12,10 +12,13 @@
 
   <div class="col-sm-6 col-xl-3 border">
     <h6>file list</h6>
-    <p
-      *ngFor="let video of videoList; let i = index">
-      {{video.name}}
-    </p>
+    <ul class="list-group">
+      <li *ngFor="let video of videoList; let i = index"
+        (click)="onSelectVideo(i)"
+        class="list-group-item"
+        [ngClass]="{active: i === activeVideo ? true : false}"
+        style="cursor: pointer">{{video.name}}</li>
+    </ul>
   </div>
 
   <div class="col-sm-6 col-xl-9 border" id="vidcontainer">

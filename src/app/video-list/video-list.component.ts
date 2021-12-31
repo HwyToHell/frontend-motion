@@ -9,6 +9,16 @@ type Video = {
   downloadUrl: string;
 };
 
+function cmpByName(a: any, b: any): number {
+  let cmp: number = 0;
+  if (a.name > b.name) {
+    cmp = 1;
+  } else if (a.name < b.name) {
+    cmp = -1;
+  }
+  return cmp;
+}
+
 @Component({
   selector: 'app-video-list',
   templateUrl: './video-list.component.html',
@@ -16,6 +26,7 @@ type Video = {
 })
 
 export class VideoListComponent implements OnInit {
+  activeVideo: number;
   files: string[]; // TODO replace with videoList
   videoUrl: string;
   videoList: Video[];
@@ -28,12 +39,17 @@ export class VideoListComponent implements OnInit {
 
     // TODO remove
     this.files.push('first');
-   }
+  }
+
+
 
   getVideoList() {
     this.videoList = [];
     const ref = this.storage.ref('');
     ref.listAll().subscribe((res) => {
+      //console.log(res.items[0].name);
+      // TODO slice and compare
+      // res.items.sort(cmpByName);
       res.items.forEach(item =>  {
         let video: Video = {
           name: item.name,
@@ -49,21 +65,15 @@ export class VideoListComponent implements OnInit {
         }, error => {
           console.log(error);
         }, () => {
-          //console.log('completed');
-          //console.log('last', this.videoList.length);
           if (this.videoList.length === 1) {
             console.log(this.videoList.length);
             this.videoUrl = this.videoList[0].downloadUrl;
             console.log('URL', this.videoUrl);
             this.isVideoAvailable = true;
+            this.activeVideo = 0;
           }
         });
       });
-    }, error => {
-      console.log(error);
-    }, () => {
-      //console.log('completed');
-      //console.log('last', this.videoList.length);
     });
 
   }  // getVideoList
@@ -83,6 +93,12 @@ export class VideoListComponent implements OnInit {
     console.log('first:', this.videoList[0]);
     console.log('last:', this.videoList[this.videoList.length-1]);
     this.isVideoAvailable = true;
+  }
+
+  onSelectVideo(index: number) {
+    this.activeVideo = index;
+    this.videoUrl = this.videoList[index].name;
+    console.log(index, this.videoList[index].name);
   }
 
   onSetVideo() {

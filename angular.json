@@ -24,9 +24,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -117,8 +120,16 @@
               "devServerTarget": "motion-frontend:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
-  "defaultProject": "motion-frontend"
+    }
+  },
+  "defaultProject": "motion-frontend",
+  "cli": {
+    "analytics": "585b5c84-8e49-4ff1-9007-f1ab324c7e9b"
+  }
 }

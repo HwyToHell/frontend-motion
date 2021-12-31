@@ -13,22 +13,16 @@
   <div class="col-sm-6 col-xl-3 border">
     <h6>file list</h6>
     <p
-      *ngFor="let file of files; let i = index">
-      {{file}}
+      *ngFor="let video of videoList; let i = index">
+      {{video.name}}
     </p>
   </div>
 
   <div class="col-sm-6 col-xl-9 border" id="vidcontainer">
     <h6>video player</h6>
-    <video controls autoplay>
-      <source
-        src="https://firebasestorage.googleapis.com/v0/b/who-has-tampered-with-my-car.appspot.com/o/2021-12-24_06h31m14s.mp4?alt=media&token=522ad37b-6f32-4c71-96fa-cab32848fdc0"
-
-        type="video/mp4">
-    </video>
     <video *ngIf="isVideoAvailable" controls autoplay>
       <source
-        src="videoUrl"
+        src="{{videoUrl}}"
         type="video/mp4">
     </video>
   </div>

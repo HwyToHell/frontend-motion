@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorage, AngularFireStorageReference} from '@angular/fire/storage';
 
@@ -25,31 +25,24 @@ function cmpByName(a: any, b: any): number {
   styleUrls: ['./video-list.component.css']
 })
 
-export class VideoListComponent implements OnInit {
+export class VideoListComponent implements OnInit, AfterViewInit {
+  @ViewChild('vidPlayer', {static: true}) player: ElementRef;
   activeVideo: number;
-  files: string[]; // TODO replace with videoList
-  videoUrl: string;
+  nowPlaying: string;
   videoList: Video[];
   isVideoAvailable: boolean;
 
-  constructor(private storage: AngularFireStorage) {
-    this.files = [];
-    this.videoUrl = '';
+  constructor(private storage: AngularFireStorage, private elRef: ElementRef) {
+    this.nowPlaying = '';
     this.isVideoAvailable = false;
-
-    // TODO remove
-    this.files.push('first');
   }
-
-
 
   getVideoList() {
     this.videoList = [];
     const ref = this.storage.ref('');
     ref.listAll().subscribe((res) => {
-      //console.log(res.items[0].name);
-      // TODO slice and compare
-      // res.items.sort(cmpByName);
+
+      // populate videoList array, sorted by name
       res.items.forEach(item =>  {
         let video: Video = {
           name: item.name,
@@ -57,30 +50,60 @@ export class VideoListComponent implements OnInit {
           time: '',
           downloadUrl: ''
         };
-        //console.log(video);
-        this.storage.ref(video.name).getDownloadURL().subscribe((url) => {
-          video.downloadUrl = url;
-          this.videoList.push(video);
-          //console.log(this.videoList.length);
-        }, error => {
-          console.log(error);
-        }, () => {
-          if (this.videoList.length === 1) {
-            console.log(this.videoList.length);
-            this.videoUrl = this.videoList[0].downloadUrl;
-            console.log('URL', this.videoUrl);
+        this.videoList.push(video);
+      });
+
+      // add downloadUrl
+      for (let i = 0; i < this.videoList.length; i++) {
+        this.storage.ref(this.videoList[i].name).getDownloadURL().subscribe((url) => {
+          this.videoList[i].downloadUrl = url;
+
+          // first video ready -> highlight entry and start playing video
+          if  (i === 0) {
+            this.nowPlaying = this.videoList[i].downloadUrl;
+            this.activeVideo = i;
             this.isVideoAvailable = true;
-            this.activeVideo = 0;
+            console.log('first', i, this.videoList[i].name, this.videoList[i].downloadUrl);
+            this.player.nativeElement.load();
+          }
+
+          // last video ready
+          if  (i === this.videoList.length-1) {
+            console.log('last', i, this.videoList[i].name, this.videoList[i].downloadUrl);
           }
         });
-      });
-    });
-
+      };
+/*       this.videoList.forEach(video =>  {
+        this.storage.ref(video.name).getDownloadURL().subscribe((url) => {
+          video.downloadUrl = url;
+          if  (video)
+          console.log(video.name, video.downloadUrl);
+        }); // forEach fileName
+      }; */
+    }); // listAll subscribe
   }  // getVideoList
 
   ngOnInit(): void {
     console.log('onInit');
     this.getVideoList();
+  }
+
+  ngAfterViewInit(): void {
+    console.log('ngAfterViewInit');
+    console.log(this.player.nativeElement);
+    //console.log(this.player.nativeElement.currentSrc);
+  }
+
+  onEnded(vidPlayer: HTMLVideoElement) {
+    console.log('onEnded()');
+    console.log(vidPlayer);
+    // TODO emit event select next video
+    this.activeVideo++;
+    if (this.activeVideo >= this.videoList.length) {
+      this.activeVideo = 0;
+    }
+    this.nowPlaying = this.videoList[this.activeVideo].downloadUrl;
+    this.player.nativeElement.load();
   }
 
   onGetFiles() {
@@ -89,29 +112,21 @@ export class VideoListComponent implements OnInit {
   }
 
   onShowUrl() {
-    console.log("URL", this.videoUrl);
-    console.log('first:', this.videoList[0]);
-    console.log('last:', this.videoList[this.videoList.length-1]);
-    this.isVideoAvailable = true;
+    for (let i = 0; i < 11; i++) {
+      console.log(i, this.videoList[i].name, this.videoList[i].downloadUrl);
+    }
   }
 
   onSelectVideo(index: number) {
+    this.isVideoAvailable = false;
     this.activeVideo = index;
-    this.videoUrl = this.videoList[index].name;
+    this.nowPlaying = this.videoList[index].downloadUrl;
     console.log(index, this.videoList[index].name);
+    this.player.nativeElement.load();
   }
 
   onSetVideo() {
-    if (this.files.length > 0) {
-      console.log(this.files[0]);
-      this.storage.ref(this.files[0]).getDownloadURL().subscribe((res) => {
-        console.log(res);
-        this.videoUrl = res;
-        console.log(this.videoUrl);
-      });
-    } else {
-      console.log("no video available")
-    }
+
   }
 
 }

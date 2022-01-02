@@ -23,9 +23,9 @@
 
   <div class="col-sm-6 col-xl-9 border" id="vidcontainer">
     <h6>video player</h6>
-    <video *ngIf="isVideoAvailable" controls autoplay>
+    <video #vidPlayer controls autoplay (ended)="onEnded(vidPlayer)">
       <source
-        src="{{videoUrl}}"
+        [src]="nowPlaying"
         type="video/mp4">
     </video>
   </div>

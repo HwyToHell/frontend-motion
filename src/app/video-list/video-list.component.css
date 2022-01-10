@@ -1,3 +1,7 @@
-video {
-  max-width: 100%;
+#file-list {
+  overflow-y: scroll;
+}
+
+#video-player {
+  overflow: auto;
 }

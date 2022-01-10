@@ -1,6 +1,12 @@
-<app-header></app-header>
+<!-- limit outermost div to screen height -->
+<div id="screen-height">
 
-<div class="container-fluid">
-  <h1 class="h6">app-comp Who has tampered with my car?</h1>
-  <router-outlet></router-outlet>
+  <!-- navigation -->
+  <app-header></app-header>
+
+  <!-- main area uses 75% of screen height -->
+  <div class="container-fluid h-75" id="main-div">
+    <router-outlet></router-outlet>
+  </div>
+
 </div>

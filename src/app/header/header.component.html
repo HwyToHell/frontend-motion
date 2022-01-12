@@ -9,11 +9,12 @@
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav me-auto">
-          <a class="nav-item nav-link" routerLinkActive="active" routerLink="/video-list">Video List</a>
+          <a *ngIf="isLoggedIn" class="nav-item nav-link" routerLinkActive="active" routerLink="/video-list">Video List</a>
       </div>
 
       <div class="navbar-nav">
-          <a class="nav-item nav-link" routerLinkActive="active" routerLink="/auth">Login</a>
+          <a *ngIf="!isLoggedIn" class="nav-item nav-link" routerLinkActive="active" routerLink="/auth">Login</a>
+          <a *ngIf="isLoggedIn" class="nav-item nav-link" style="cursor: pointer;" (click)="onLogout()">Logout</a>
       </div>
   </div>
 </nav>

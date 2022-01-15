@@ -63,40 +63,33 @@ export class VideoListComponent implements OnInit, AfterViewInit {
             this.nowPlaying = this.videoList[i].downloadUrl;
             this.activeVideo = i;
             this.isVideoAvailable = true;
-            console.log('first', i, this.videoList[i].name, this.videoList[i].downloadUrl);
+            //console.log('first', i, this.videoList[i].name, this.videoList[i].downloadUrl);
             this.player.nativeElement.load();
           }
 
           // last video ready
           if  (i === this.videoList.length-1) {
-            console.log('last', i, this.videoList[i].name, this.videoList[i].downloadUrl);
+            //console.log('last', i, this.videoList[i].name, this.videoList[i].downloadUrl);
           }
         });
       };
-/*       this.videoList.forEach(video =>  {
-        this.storage.ref(video.name).getDownloadURL().subscribe((url) => {
-          video.downloadUrl = url;
-          if  (video)
-          console.log(video.name, video.downloadUrl);
-        }); // forEach fileName
-      }; */
     }); // listAll subscribe
   }  // getVideoList
 
   ngOnInit(): void {
-    console.log('onInit');
+    //console.log('onInit');
     this.getVideoList();
   }
 
   ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
-    console.log(this.player.nativeElement);
+    //console.log('ngAfterViewInit');
+    //console.log(this.player.nativeElement);
     //console.log(this.player.nativeElement.currentSrc);
   }
 
   onEnded(vidPlayer: HTMLVideoElement) {
-    console.log('onEnded()');
-    console.log(vidPlayer);
+    //console.log('onEnded()');
+    //console.log(vidPlayer);
     // TODO emit event select next video
     this.activeVideo++;
     if (this.activeVideo >= this.videoList.length) {

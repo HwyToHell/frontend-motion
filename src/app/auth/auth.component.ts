@@ -26,7 +26,7 @@ import { AuthService } from "./auth.service";
     //console.log(form.value);
 
     this.authService.login(email, password).subscribe(res => {
-      console.log(res);
+      //console.log(res);
       this.error = null;
       // navigate only after login has been successfully finished
       this.router.navigate(['/video-list']);

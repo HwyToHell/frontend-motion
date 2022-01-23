@@ -9,7 +9,8 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  isLoggedIn = false;
+  isExpanded: boolean = false;
+  isLoggedIn: boolean = false;
   private userSub_: Subscription;
 
   constructor(private authService: AuthService) { }
@@ -17,13 +18,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userSub_ = this.authService.user.subscribe(user => {
       this.isLoggedIn = !!user;
-      console.log('user' , !!user);
+      //console.log('user' , !!user);
     });
     this.authService.autoLogin();
   }
 
   ngOnDestroy(): void {
     this.userSub_.unsubscribe();
+  }
+
+  onExpand() {
+    this.isExpanded = !this.isExpanded;
+    //console.log("expanded:", this.isExpanded);
   }
 
   onLogout() {

@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { VideoListComponent } from './video-list/video-list.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthComponent } from './auth/auth.component';
+import { NavCollapse } from './shared/nav-collapse.directive';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AuthComponent } from './auth/auth.component';
     AppComponent,
     AuthComponent,
     VideoListComponent,
-    HeaderComponent
+    HeaderComponent,
+    NavCollapse
   ],
   imports: [
     BrowserModule,

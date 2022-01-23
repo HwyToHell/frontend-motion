@@ -81,7 +81,7 @@ export class AuthService {
 
   // expirationDuration in ms
   autoLogout(expirationDuration: number) {
-    console.log(expirationDuration);
+    //console.log(expirationDuration);
     this.tokenExpirationTimer_ = setTimeout(() => {
       this.logout();
     //}, 2000);

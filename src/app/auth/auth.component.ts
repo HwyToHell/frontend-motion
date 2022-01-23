@@ -14,7 +14,7 @@ import { AuthService } from "./auth.service";
   constructor(private authService: AuthService, private router: Router) {}
 
   onChangeRoute() {
-    console.log("change route");
+    //console.log("change route");
     this.router.navigate(['/video-list']);
   }
 

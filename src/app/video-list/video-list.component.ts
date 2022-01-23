@@ -100,13 +100,13 @@ export class VideoListComponent implements OnInit, AfterViewInit {
   }
 
   onGetFiles() {
-    console.log('onGetFiles');
+    //console.log('onGetFiles');
     this.getVideoList();
   }
 
   onShowUrl() {
     for (let i = 0; i < 11; i++) {
-      console.log(i, this.videoList[i].name, this.videoList[i].downloadUrl);
+      //console.log(i, this.videoList[i].name, this.videoList[i].downloadUrl);
     }
   }
 
@@ -114,7 +114,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
     this.isVideoAvailable = false;
     this.activeVideo = index;
     this.nowPlaying = this.videoList[index].downloadUrl;
-    console.log(index, this.videoList[index].name);
+    //console.log(index, this.videoList[index].name);
     this.player.nativeElement.load();
   }
 

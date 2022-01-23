@@ -108,7 +108,7 @@
 
           <!-- video container -->
           <div class="col-sm-6 col-xl-9 h-100" id="video-player">
-            <video controls autoplay class="h-100">
+            <video controls autoplay class="h-100" id="video-win">
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/who-has-tampered-with-my-car.appspot.com/o/2022-01-05_13h00m30s.mp4?alt=media&token=52031342-18b5-45e2-8a30-89903102cb18"
                 type="video/mp4">
@@ -148,8 +148,11 @@
     }
     #video-player {
       overflow: auto;
+      background-color: cyan;
     }
-
+    #video-win {
+      background-color: yellow;
+    }
 
   </style>
 

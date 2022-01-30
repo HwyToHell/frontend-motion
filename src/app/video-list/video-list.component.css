@@ -5,3 +5,7 @@
 #video-player {
   overflow: auto;
 }
+
+video {
+  vertical-align: top;
+}
